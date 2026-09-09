@@ -42,7 +42,7 @@ export const SizePicker = forwardRef<HTMLDivElement, SizePickerProps>(
 
         if (nextIdx !== idx) {
           const nextSize = sizes[nextIdx];
-          if (nextSize.available) onSelect?.(nextSize.value);
+          if (nextSize?.available) onSelect?.(nextSize.value);
           const btn = e.currentTarget
             .closest('[role="radiogroup"]')
             ?.querySelectorAll('[role="radio"]')[nextIdx] as

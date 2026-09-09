@@ -26,7 +26,7 @@ function generateSparkle(colors: string[]): Sparkle {
     x: Math.random() * 100,
     y: Math.random() * 100,
     size: Math.random() * 8 + 4,
-    color: colors[Math.floor(Math.random() * colors.length)],
+    color: colors[Math.floor(Math.random() * colors.length)]!,
     createdAt: Date.now(),
   };
 }

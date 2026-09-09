@@ -23,7 +23,7 @@ export const SwatchPicker = forwardRef<HTMLDivElement, SwatchPickerProps>(
       (e: React.KeyboardEvent, idx: number) => {
         const availableSwatches = swatches.filter((s) => s.available);
         const currentAvailableIdx = availableSwatches.findIndex(
-          (s) => s.hex === swatches[idx].hex,
+          (s) => s.hex === swatches[idx]?.hex,
         );
 
         let next: Swatch | undefined;
