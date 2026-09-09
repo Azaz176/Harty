@@ -32,6 +32,7 @@ export function Magnetic({
       onPointerMove={(e) => {
         if (e.pointerType !== "mouse") return;
         const r = ref.current?.getBoundingClientRect();
+        if (!r) return;
         mx.set(clamp((e.clientX - (r.left + r.width / 2)) * strength));
         my.set(clamp((e.clientY - (r.top + r.height / 2)) * strength));
       }}
