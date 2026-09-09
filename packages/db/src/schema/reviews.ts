@@ -1,17 +1,17 @@
 import {
-  pgTable,
-  uuid,
-  varchar,
-  text,
+  index,
   integer,
   jsonb,
+  pgTable,
+  text,
   timestamp,
-  index,
+  uuid,
+  varchar,
 } from "drizzle-orm/pg-core";
-import { fitFeedbackEnum, reviewStatusEnum } from "./enums";
-import { users } from "./users";
 import { products } from "./catalog";
+import { fitFeedbackEnum, reviewStatusEnum } from "./enums";
 import { orderItems } from "./orders";
+import { users } from "./users";
 
 export const reviews = pgTable(
   "reviews",
@@ -31,13 +31,11 @@ export const reviews = pgTable(
     fitFeedback: fitFeedbackEnum("fit_feedback"),
     helpfulCount: integer("helpful_count").default(0).notNull(),
     status: reviewStatusEnum("status").default("pending").notNull(),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .defaultNow()
-      .notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   },
   (t) => [
     index("reviews_product_id_idx").on(t.productId),
     index("reviews_user_id_idx").on(t.userId),
     index("reviews_status_idx").on(t.status),
-  ]
+  ],
 );

@@ -4,14 +4,26 @@ import { spring } from "./springs";
 
 type Dir = "up" | "down" | "left" | "right" | "none";
 const OFFSET: Record<Dir, { x?: number; y?: number }> = {
-  up: { y: 28 }, down: { y: -28 }, left: { x: 28 }, right: { x: -28 }, none: {},
+  up: { y: 28 },
+  down: { y: -28 },
+  left: { x: 28 },
+  right: { x: -28 },
+  none: {},
 };
 
 /** SI-16 · Directional entrance. Motion Law #2: enter from intent direction. */
 export function Reveal({
-  children, dir = "up", delay = 0, once = true, className,
+  children,
+  dir = "up",
+  delay = 0,
+  once = true,
+  className,
 }: {
-  children: React.ReactNode; dir?: Dir; delay?: number; once?: boolean; className?: string;
+  children: React.ReactNode;
+  dir?: Dir;
+  delay?: number;
+  once?: boolean;
+  className?: string;
 }) {
   const reduce = useReducedMotion();
 
@@ -20,7 +32,10 @@ export function Reveal({
     : {
         hidden: { opacity: 0, ...OFFSET[dir], filter: "blur(4px)" },
         show: {
-          opacity: 1, x: 0, y: 0, filter: "blur(0px)",
+          opacity: 1,
+          x: 0,
+          y: 0,
+          filter: "blur(0px)",
           transition: { ...spring.smooth, delay },
         },
       };
@@ -40,8 +55,16 @@ export function Reveal({
 
 /** Parent that staggers any Reveal/motion children. */
 export function StaggerGroup({
-  children, stagger = 0.045, delay = 0, className,
-}: { children: React.ReactNode; stagger?: number; delay?: number; className?: string }) {
+  children,
+  stagger = 0.045,
+  delay = 0,
+  className,
+}: {
+  children: React.ReactNode;
+  stagger?: number;
+  delay?: number;
+  className?: string;
+}) {
   const reduce = useReducedMotion();
   return (
     <motion.div

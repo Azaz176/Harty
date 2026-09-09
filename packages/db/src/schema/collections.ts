@@ -1,14 +1,6 @@
-import {
-  pgTable,
-  uuid,
-  varchar,
-  text,
-  jsonb,
-  integer,
-  primaryKey,
-} from "drizzle-orm/pg-core";
-import { collectionKindEnum } from "./enums";
+import { integer, jsonb, pgTable, primaryKey, text, uuid, varchar } from "drizzle-orm/pg-core";
 import { products } from "./catalog";
+import { collectionKindEnum } from "./enums";
 
 export const collections = pgTable("collections", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -30,7 +22,5 @@ export const collectionItems = pgTable(
       .notNull(),
     position: integer("position").default(0).notNull(),
   },
-  (t) => [
-    primaryKey({ columns: [t.collectionId, t.productId] }),
-  ]
+  (t) => [primaryKey({ columns: [t.collectionId, t.productId] })],
 );

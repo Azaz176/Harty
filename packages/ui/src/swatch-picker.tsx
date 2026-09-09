@@ -1,7 +1,7 @@
 "use client";
 
-import { forwardRef, useCallback } from "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
+import { forwardRef, useCallback } from "react";
 import { cn } from "./lib/cn";
 
 interface Swatch {
@@ -29,16 +29,12 @@ export const SwatchPicker = forwardRef<HTMLDivElement, SwatchPickerProps>(
         let next: Swatch | undefined;
         if (e.key === "ArrowRight" || e.key === "ArrowDown") {
           e.preventDefault();
-          next =
-            availableSwatches[
-              (currentAvailableIdx + 1) % availableSwatches.length
-            ];
+          next = availableSwatches[(currentAvailableIdx + 1) % availableSwatches.length];
         } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
           e.preventDefault();
           next =
             availableSwatches[
-              (currentAvailableIdx - 1 + availableSwatches.length) %
-                availableSwatches.length
+              (currentAvailableIdx - 1 + availableSwatches.length) % availableSwatches.length
             ];
         }
 
@@ -71,17 +67,14 @@ export const SwatchPicker = forwardRef<HTMLDivElement, SwatchPickerProps>(
                   aria-label={`${swatch.name}${swatch.available ? "" : " (unavailable)"}`}
                   data-hex={swatch.hex}
                   disabled={!swatch.available}
-                  tabIndex={
-                    selected === swatch.hex || (!selected && idx === 0) ? 0 : -1
-                  }
+                  tabIndex={selected === swatch.hex || (!selected && idx === 0) ? 0 : -1}
                   onClick={() => swatch.available && onSelect?.(swatch.hex)}
                   onKeyDown={(e) => handleKeyDown(e, idx)}
                   className={cn(
                     "relative size-7 rounded-[var(--radius-pill)]",
                     "transition-shadow duration-[var(--dur-micro)] ease-[var(--ease-out-expo)]",
                     "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-volt",
-                    selected === swatch.hex &&
-                      "ring-2 ring-volt ring-offset-2 ring-offset-paper",
+                    selected === swatch.hex && "ring-2 ring-volt ring-offset-2 ring-offset-paper",
                     !swatch.available && "cursor-not-allowed opacity-50",
                   )}
                   style={{ backgroundColor: swatch.hex }}

@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { motion, useMotionTemplate, useMotionValue } from "motion/react";
+import { type MouseEvent, type ReactNode, useRef, useState } from "react";
 import { cn } from "../lib/cn";
 
 type SpotlightProps = {

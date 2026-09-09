@@ -1,23 +1,23 @@
 import {
-  pgTable,
-  uuid,
-  varchar,
+  index,
   integer,
   jsonb,
+  pgTable,
   text,
   timestamp,
-  index,
+  uuid,
+  varchar,
 } from "drizzle-orm/pg-core";
+import { variants } from "./catalog";
 import {
+  orderItemStatusEnum,
   orderStatusEnum,
   paymentStatusEnum,
-  orderItemStatusEnum,
-  shipmentStatusEnum,
   returnKindEnum,
   returnStatusEnum,
+  shipmentStatusEnum,
 } from "./enums";
 import { users } from "./users";
-import { variants } from "./catalog";
 
 export const orders = pgTable(
   "orders",
@@ -35,18 +35,14 @@ export const orders = pgTable(
     total: integer("total").notNull(),
     currency: varchar("currency", { length: 3 }).default("INR").notNull(),
     addressSnapshot: jsonb("address_snapshot").notNull(),
-    paymentStatus: paymentStatusEnum("payment_status")
-      .default("pending")
-      .notNull(),
-    placedAt: timestamp("placed_at", { withTimezone: true })
-      .defaultNow()
-      .notNull(),
+    paymentStatus: paymentStatusEnum("payment_status").default("pending").notNull(),
+    placedAt: timestamp("placed_at", { withTimezone: true }).defaultNow().notNull(),
   },
   (t) => [
     index("orders_user_id_idx").on(t.userId),
     index("orders_status_idx").on(t.status),
     index("orders_placed_at_idx").on(t.placedAt),
-  ]
+  ],
 );
 
 export const orderItems = pgTable(
@@ -69,7 +65,7 @@ export const orderItems = pgTable(
       withTimezone: true,
     }),
   },
-  (t) => [index("order_items_order_id_idx").on(t.orderId)]
+  (t) => [index("order_items_order_id_idx").on(t.orderId)],
 );
 
 export const payments = pgTable(
@@ -89,7 +85,7 @@ export const payments = pgTable(
   (t) => [
     index("payments_order_id_idx").on(t.orderId),
     index("payments_provider_ref_idx").on(t.providerRefId),
-  ]
+  ],
 );
 
 export const shipments = pgTable(
@@ -102,12 +98,10 @@ export const shipments = pgTable(
     awb: varchar("awb", { length: 100 }),
     carrier: varchar("carrier", { length: 100 }),
     status: shipmentStatusEnum("status").default("created").notNull(),
-    events: jsonb("events").$type<
-      Array<{ status: string; location: string; at: string }>
-    >(),
+    events: jsonb("events").$type<Array<{ status: string; location: string; at: string }>>(),
     eta: timestamp("eta", { withTimezone: true }),
   },
-  (t) => [index("shipments_order_id_idx").on(t.orderId)]
+  (t) => [index("shipments_order_id_idx").on(t.orderId)],
 );
 
 export const returns = pgTable(
@@ -123,9 +117,7 @@ export const returns = pgTable(
     media: jsonb("media").$type<Array<{ url: string; type: string }>>(),
     status: returnStatusEnum("status").default("requested").notNull(),
     refundId: varchar("refund_id", { length: 255 }),
-    exchangeVariantId: uuid("exchange_variant_id").references(
-      () => variants.id
-    ),
+    exchangeVariantId: uuid("exchange_variant_id").references(() => variants.id),
   },
-  (t) => [index("returns_order_item_id_idx").on(t.orderItemId)]
+  (t) => [index("returns_order_item_id_idx").on(t.orderItemId)],
 );

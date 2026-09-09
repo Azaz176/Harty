@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useRef,
-  useState,
-  type MouseEvent,
-  type ReactNode,
-} from "react";
+import { createContext, type MouseEvent, type ReactNode, useRef, useState } from "react";
 import { cn } from "../lib/cn";
 
 type CardContextValue = {
@@ -23,11 +16,7 @@ type CardContainerProps = {
   containerClassName?: string;
 };
 
-export function CardContainer({
-  children,
-  className,
-  containerClassName,
-}: CardContainerProps) {
+export function CardContainer({ children, className, containerClassName }: CardContainerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [rotate, setRotate] = useState({ x: 0, y: 0 });
 
@@ -76,16 +65,7 @@ type CardBodyProps = {
 };
 
 export function CardBody({ children, className }: CardBodyProps) {
-  return (
-    <div
-      className={cn(
-        "[transform-style:preserve-3d]",
-        className,
-      )}
-    >
-      {children}
-    </div>
-  );
+  return <div className={cn("[transform-style:preserve-3d]", className)}>{children}</div>;
 }
 
 type CardItemProps = {
@@ -95,12 +75,7 @@ type CardItemProps = {
   as?: React.ElementType;
 };
 
-export function CardItem({
-  children,
-  className,
-  translateZ = 0,
-  as: Tag = "div",
-}: CardItemProps) {
+export function CardItem({ children, className, translateZ = 0, as: Tag = "div" }: CardItemProps) {
   return (
     <Tag
       className={cn("transition-transform duration-200 ease-out", className)}

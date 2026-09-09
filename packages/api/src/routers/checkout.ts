@@ -1,8 +1,8 @@
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { router, publicProcedure } from "../trpc";
-import { products, getBrand } from "../data/mock-products";
-import type { MockVariant, MockProduct } from "../data/mock-products";
+import { z } from "zod";
+import type { MockProduct, MockVariant } from "../data/mock-products";
+import { getBrand, products } from "../data/mock-products";
+import { publicProcedure, router } from "../trpc";
 
 type Reservation = {
   id: string;
@@ -63,9 +63,15 @@ let reservationCounter = 1;
 let orderCounter = 10000;
 let paymentCounter = 1;
 
-const carts = new Map<string, { items: Array<{ variantId: string; productId: string; qty: number; priceSnapshot: number }>; appliedCouponCode: string | null }>();
+const carts = new Map<
+  string,
+  {
+    items: Array<{ variantId: string; productId: string; qty: number; priceSnapshot: number }>;
+    appliedCouponCode: string | null;
+  }
+>();
 
-function findVariant(variantId: string): { product: MockProduct; variant: MockVariant } | null {
+function _findVariant(variantId: string): { product: MockProduct; variant: MockVariant } | null {
   for (const p of products) {
     const v = p.variants.find((v) => v.id === variantId);
     if (v) return { product: p, variant: v };
@@ -97,22 +103,24 @@ const addressSchema = z.object({
 });
 
 export const checkoutRouter = router({
-  init: publicProcedure
-    .input(z.object({ cartId: z.string().min(1) }))
-    .mutation(({ input }) => {
-      const cartModule = require("./cart");
-      let cartData: { items: Array<{ variantId: string; productId: string; qty: number; priceSnapshot: number }>; appliedCouponCode: string | null };
+  init: publicProcedure.input(z.object({ cartId: z.string().min(1) })).mutation(({ input }) => {
+    const cartModule = require("./cart");
+    let cartData: {
+      items: Array<{ variantId: string; productId: string; qty: number; priceSnapshot: number }>;
+      appliedCouponCode: string | null;
+    };
 
-      try {
-        const cartGetter = cartModule.cartRouter?.createCaller?.({});
-        cartData = { items: [], appliedCouponCode: null };
-      } catch {
-        cartData = { items: [], appliedCouponCode: null };
-      }
+    try {
+      const _cartGetter = cartModule.cartRouter?.createCaller?.({});
+      cartData = { items: [], appliedCouponCode: null };
+    } catch {
+      cartData = { items: [], appliedCouponCode: null };
+    }
 
-      const cart = carts.get(input.cartId) ?? cartData;
+    const _cart = carts.get(input.cartId) ?? cartData;
 
-      const items = products.flatMap((p) =>
+    const items = products
+      .flatMap((p) =>
         p.variants
           .filter((v) => v.inStock)
           .slice(0, 2)
@@ -130,38 +138,39 @@ export const checkoutRouter = router({
               colorName: v.colorName,
               imageUrl: p.media[0]?.url ?? "",
             };
-          })
-      ).slice(0, 3);
+          }),
+      )
+      .slice(0, 3);
 
-      const subtotal = items.reduce((sum, i) => sum + i.price * i.qty, 0);
-      const quote = computeQuote(subtotal, 0);
+    const subtotal = items.reduce((sum, i) => sum + i.price * i.qty, 0);
+    const quote = computeQuote(subtotal, 0);
 
-      const reservation: Reservation = {
-        id: `res-${reservationCounter++}`,
-        cartId: input.cartId,
-        items,
-        address: null,
-        paymentMethod: null,
-        paymentId: null,
-        quote,
-        createdAt: new Date().toISOString(),
-      };
+    const reservation: Reservation = {
+      id: `res-${reservationCounter++}`,
+      cartId: input.cartId,
+      items,
+      address: null,
+      paymentMethod: null,
+      paymentId: null,
+      quote,
+      createdAt: new Date().toISOString(),
+    };
 
-      reservations.set(reservation.id, reservation);
+    reservations.set(reservation.id, reservation);
 
-      return {
-        reservationId: reservation.id,
-        items: reservation.items,
-        quote: reservation.quote,
-      };
-    }),
+    return {
+      reservationId: reservation.id,
+      items: reservation.items,
+      quote: reservation.quote,
+    };
+  }),
 
   setAddress: publicProcedure
     .input(
       z.object({
         reservationId: z.string().min(1),
         address: addressSchema,
-      })
+      }),
     )
     .mutation(({ input }) => {
       const reservation = reservations.get(input.reservationId);
@@ -190,7 +199,7 @@ export const checkoutRouter = router({
       z.object({
         reservationId: z.string().min(1),
         method: z.enum(["card", "upi", "cod"]),
-      })
+      }),
     )
     .mutation(({ input }) => {
       const reservation = reservations.get(input.reservationId);
@@ -213,7 +222,7 @@ export const checkoutRouter = router({
       z.object({
         reservationId: z.string().min(1),
         paymentId: z.string().min(1),
-      })
+      }),
     )
     .mutation(({ input }) => {
       const reservation = reservations.get(input.reservationId);
@@ -253,13 +262,11 @@ export const checkoutRouter = router({
       };
     }),
 
-  getOrder: publicProcedure
-    .input(z.object({ orderId: z.string().min(1) }))
-    .query(({ input }) => {
-      const order = orders.get(input.orderId);
-      if (!order) {
-        throw new TRPCError({ code: "NOT_FOUND", message: "Order not found" });
-      }
-      return order;
-    }),
+  getOrder: publicProcedure.input(z.object({ orderId: z.string().min(1) })).query(({ input }) => {
+    const order = orders.get(input.orderId);
+    if (!order) {
+      throw new TRPCError({ code: "NOT_FOUND", message: "Order not found" });
+    }
+    return order;
+  }),
 });

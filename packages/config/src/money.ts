@@ -18,7 +18,7 @@ export function toMajor(p: Paise): number {
 
 export function formatMoney(
   p: Paise,
-  options: { currency?: string; locale?: string } = {}
+  options: { currency?: string; locale?: string } = {},
 ): string {
   const { currency = "INR", locale = "en-IN" } = options;
   return new Intl.NumberFormat(locale, {

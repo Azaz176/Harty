@@ -3,11 +3,7 @@
 import { forwardRef } from "react";
 import { cn } from "./lib/cn";
 
-function formatMoney(
-  paise: number,
-  currency = "INR",
-  locale = "en-IN",
-): string {
+function formatMoney(paise: number, currency = "INR", locale = "en-IN"): string {
   return new Intl.NumberFormat(locale, {
     style: "currency",
     currency,

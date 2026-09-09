@@ -1,7 +1,7 @@
 "use client";
 
-import { forwardRef, type ComponentPropsWithoutRef } from "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
+import { type ComponentPropsWithoutRef, forwardRef } from "react";
 import { cn } from "./lib/cn";
 
 export const Provider = TooltipPrimitive.Provider;
@@ -22,7 +22,7 @@ export const Content = forwardRef<
         "shadow-[var(--shadow-pop)]",
         "animate-in fade-in-0 zoom-in-[0.96] duration-[var(--dur-micro)]",
         "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-[0.96]",
-        className
+        className,
       )}
       {...props}
     />
@@ -34,10 +34,6 @@ export const Arrow = forwardRef<
   SVGSVGElement,
   ComponentPropsWithoutRef<typeof TooltipPrimitive.Arrow>
 >(({ className, ...props }, ref) => (
-  <TooltipPrimitive.Arrow
-    ref={ref}
-    className={cn("fill-ink", className)}
-    {...props}
-  />
+  <TooltipPrimitive.Arrow ref={ref} className={cn("fill-ink", className)} {...props} />
 ));
 Arrow.displayName = "Tooltip.Arrow";

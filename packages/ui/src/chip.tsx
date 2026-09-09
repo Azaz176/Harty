@@ -1,8 +1,8 @@
 "use client";
 
-import { forwardRef, type ComponentPropsWithoutRef } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { X } from "lucide-react";
+import { type ComponentPropsWithoutRef, forwardRef } from "react";
 import { cn } from "./lib/cn";
 
 const chipVariants = cva(
@@ -28,7 +28,7 @@ const chipVariants = cva(
       variant: "default",
       size: "md",
     },
-  }
+  },
 );
 
 export type ChipProps = ComponentPropsWithoutRef<"button"> &
@@ -61,6 +61,6 @@ export const Chip = forwardRef<HTMLButtonElement, ChipProps>(
         )}
       </button>
     );
-  }
+  },
 );
 Chip.displayName = "Chip";

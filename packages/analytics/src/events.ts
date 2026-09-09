@@ -1,9 +1,29 @@
 type AnalyticsEvent =
   | { name: "page_viewed"; properties: { path: string; title: string } }
-  | { name: "product_viewed"; properties: { product_id: string; slug: string; brand: string; category: string; price: number } }
-  | { name: "product_list_viewed"; properties: { category: string; page: number; total: number; filters: Record<string, string[]> } }
+  | {
+      name: "product_viewed";
+      properties: {
+        product_id: string;
+        slug: string;
+        brand: string;
+        category: string;
+        price: number;
+      };
+    }
+  | {
+      name: "product_list_viewed";
+      properties: {
+        category: string;
+        page: number;
+        total: number;
+        filters: Record<string, string[]>;
+      };
+    }
   | { name: "search_performed"; properties: { query: string; results_count: number } }
-  | { name: "product_added_to_cart"; properties: { product_id: string; variant_id: string; price: number; qty: number } }
+  | {
+      name: "product_added_to_cart";
+      properties: { product_id: string; variant_id: string; price: number; qty: number };
+    }
   | { name: "product_removed_from_cart"; properties: { product_id: string; variant_id: string } }
   | { name: "cart_viewed"; properties: { item_count: number; total: number } }
   | { name: "wishlist_toggled"; properties: { product_id: string; action: "add" | "remove" } }

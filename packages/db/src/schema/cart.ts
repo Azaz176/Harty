@@ -1,15 +1,7 @@
-import {
-  pgTable,
-  uuid,
-  varchar,
-  integer,
-  timestamp,
-  primaryKey,
-  index,
-} from "drizzle-orm/pg-core";
-import { users } from "./users";
+import { index, integer, pgTable, primaryKey, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { products, variants } from "./catalog";
 import { coupons } from "./coupons";
+import { users } from "./users";
 
 export const carts = pgTable(
   "carts",
@@ -21,10 +13,7 @@ export const carts = pgTable(
     appliedCouponId: uuid("applied_coupon_id").references(() => coupons.id),
     expiresAt: timestamp("expires_at", { withTimezone: true }),
   },
-  (t) => [
-    index("carts_user_id_idx").on(t.userId),
-    index("carts_anon_id_idx").on(t.anonId),
-  ]
+  (t) => [index("carts_user_id_idx").on(t.userId), index("carts_anon_id_idx").on(t.anonId)],
 );
 
 export const cartItems = pgTable(
@@ -39,11 +28,9 @@ export const cartItems = pgTable(
       .notNull(),
     qty: integer("qty").default(1).notNull(),
     priceSnapshot: integer("price_snapshot").notNull(),
-    addedAt: timestamp("added_at", { withTimezone: true })
-      .defaultNow()
-      .notNull(),
+    addedAt: timestamp("added_at", { withTimezone: true }).defaultNow().notNull(),
   },
-  (t) => [index("cart_items_cart_id_idx").on(t.cartId)]
+  (t) => [index("cart_items_cart_id_idx").on(t.cartId)],
 );
 
 export const wishlists = pgTable(
@@ -58,11 +45,7 @@ export const wishlists = pgTable(
     variantId: uuid("variant_id").references(() => variants.id, {
       onDelete: "set null",
     }),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .defaultNow()
-      .notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   },
-  (t) => [
-    primaryKey({ columns: [t.userId, t.productId] }),
-  ]
+  (t) => [primaryKey({ columns: [t.userId, t.productId] })],
 );

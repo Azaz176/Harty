@@ -1,8 +1,8 @@
 "use client";
 
-import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
+import { type ComponentPropsWithoutRef, type ElementRef, forwardRef } from "react";
 import { cn } from "./lib/cn";
 
 function Root(props: DialogPrimitive.DialogProps) {
@@ -90,16 +90,8 @@ const Description = forwardRef<
 ));
 Description.displayName = "Dialog.Description";
 
-function Footer({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      className={cn("mt-6 flex justify-end gap-3", className)}
-      {...props}
-    />
-  );
+function Footer({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return <div className={cn("mt-6 flex justify-end gap-3", className)} {...props} />;
 }
 
 export const Dialog = {

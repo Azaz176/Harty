@@ -1,35 +1,18 @@
 import { pgEnum } from "drizzle-orm/pg-core";
 
-export const userTierEnum = pgEnum("user_tier", [
-  "bronze",
-  "silver",
-  "gold",
-  "platinum",
-]);
+export const userTierEnum = pgEnum("user_tier", ["bronze", "silver", "gold", "platinum"]);
 
 export const addressTypeEnum = pgEnum("address_type", ["home", "work"]);
 
 export const genderEnum = pgEnum("gender", ["men", "women", "kids", "unisex"]);
 
-export const productStatusEnum = pgEnum("product_status", [
-  "draft",
-  "active",
-  "archived",
-]);
+export const productStatusEnum = pgEnum("product_status", ["draft", "active", "archived"]);
 
 export const mediaKindEnum = pgEnum("media_kind", ["image", "video", "360"]);
 
-export const collectionKindEnum = pgEnum("collection_kind", [
-  "manual",
-  "rule",
-]);
+export const collectionKindEnum = pgEnum("collection_kind", ["manual", "rule"]);
 
-export const couponKindEnum = pgEnum("coupon_kind", [
-  "pct",
-  "flat",
-  "bxgy",
-  "shipping",
-]);
+export const couponKindEnum = pgEnum("coupon_kind", ["pct", "flat", "bxgy", "shipping"]);
 
 export const orderStatusEnum = pgEnum("order_status", [
   "pending",
@@ -78,14 +61,6 @@ export const returnStatusEnum = pgEnum("return_status", [
   "rejected",
 ]);
 
-export const fitFeedbackEnum = pgEnum("fit_feedback", [
-  "small",
-  "true",
-  "large",
-]);
+export const fitFeedbackEnum = pgEnum("fit_feedback", ["small", "true", "large"]);
 
-export const reviewStatusEnum = pgEnum("review_status", [
-  "pending",
-  "approved",
-  "rejected",
-]);
+export const reviewStatusEnum = pgEnum("review_status", ["pending", "approved", "rejected"]);

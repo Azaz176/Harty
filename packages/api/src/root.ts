@@ -1,10 +1,10 @@
-import { router } from "./trpc";
-import { catalogRouter } from "./routers/catalog";
-import { searchRouter } from "./routers/search";
 import { cartRouter } from "./routers/cart";
-import { wishlistRouter } from "./routers/wishlist";
-import { reviewRouter } from "./routers/review";
+import { catalogRouter } from "./routers/catalog";
 import { checkoutRouter } from "./routers/checkout";
+import { reviewRouter } from "./routers/review";
+import { searchRouter } from "./routers/search";
+import { wishlistRouter } from "./routers/wishlist";
+import { router } from "./trpc";
 
 export const appRouter = router({
   catalog: catalogRouter,

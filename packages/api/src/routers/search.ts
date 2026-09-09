@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { router, publicProcedure } from "../trpc";
-import { products, brands, categories, getBrand } from "../data/mock-products";
+import { brands, categories, getBrand, products } from "../data/mock-products";
+import { publicProcedure, router } from "../trpc";
 
 const PAGE_SIZE = 40;
 
@@ -58,7 +58,7 @@ export const searchRouter = router({
         .sort((a, b) => b.score - a.score);
 
       if (input.filters?.gender) {
-        scored = scored.filter((s) => s.product.gender === input.filters!.gender);
+        scored = scored.filter((s) => s.product.gender === input.filters?.gender);
       }
       if (input.filters?.brands?.length) {
         const slugs = new Set(input.filters.brands);
@@ -66,12 +66,8 @@ export const searchRouter = router({
       }
       if (input.filters?.categories?.length) {
         const slugs = new Set(input.filters.categories);
-        const catIds = categories
-          .filter((c) => slugs.has(c.slug))
-          .map((c) => c.id);
-        scored = scored.filter((s) =>
-          catIds.includes(s.product.categoryId),
-        );
+        const catIds = categories.filter((c) => slugs.has(c.slug)).map((c) => c.id);
+        scored = scored.filter((s) => catIds.includes(s.product.categoryId));
       }
 
       const total = scored.length;
@@ -86,9 +82,7 @@ export const searchRouter = router({
             id: p.id,
             slug: p.slug,
             title: p.title,
-            brand: s.brand
-              ? { slug: s.brand.slug, name: s.brand.name }
-              : null,
+            brand: s.brand ? { slug: s.brand.slug, name: s.brand.name } : null,
             price: primaryVariant.price,
             mrp: primaryVariant.mrp,
             image: p.media[0] ?? null,
@@ -101,47 +95,48 @@ export const searchRouter = router({
       };
     }),
 
-  suggest: publicProcedure
-    .input(z.object({ q: z.string().min(1) }))
-    .query(({ input }) => {
-      const q = input.q.toLowerCase();
+  suggest: publicProcedure.input(z.object({ q: z.string().min(1) })).query(({ input }) => {
+    const q = input.q.toLowerCase();
 
-      const matchedBrands = brands
-        .filter((b) => b.name.toLowerCase().includes(q))
-        .slice(0, 4)
-        .map((b) => ({ slug: b.slug, name: b.name }));
+    const matchedBrands = brands
+      .filter((b) => b.name.toLowerCase().includes(q))
+      .slice(0, 4)
+      .map((b) => ({ slug: b.slug, name: b.name }));
 
-      const matchedCategories = categories
-        .filter((c) => c.name.toLowerCase().includes(q))
-        .slice(0, 4)
-        .map((c) => ({ slug: c.slug, name: c.name, gender: c.gender }));
+    const matchedCategories = categories
+      .filter((c) => c.name.toLowerCase().includes(q))
+      .slice(0, 4)
+      .map((c) => ({ slug: c.slug, name: c.name, gender: c.gender }));
 
-      const matchedProducts = products
-        .filter(
-          (p) =>
-            p.status === "active" &&
-            (p.title.toLowerCase().includes(q) ||
-              getBrand(p.brandId)?.name.toLowerCase().includes(q)),
-        )
-        .slice(0, 6)
-        .map((p) => {
-          const brand = getBrand(p.brandId);
-          return {
-            id: p.id,
-            slug: p.slug,
-            title: p.title,
-            brand: brand?.name ?? "",
-            price: p.variants[0]?.price ?? p.basePrice,
-            image: p.media[0]?.url ?? null,
-          };
-        });
+    const matchedProducts = products
+      .filter(
+        (p) =>
+          p.status === "active" &&
+          (p.title.toLowerCase().includes(q) ||
+            getBrand(p.brandId)?.name.toLowerCase().includes(q)),
+      )
+      .slice(0, 6)
+      .map((p) => {
+        const brand = getBrand(p.brandId);
+        return {
+          id: p.id,
+          slug: p.slug,
+          title: p.title,
+          brand: brand?.name ?? "",
+          price: p.variants[0]?.price ?? p.basePrice,
+          image: p.media[0]?.url ?? null,
+        };
+      });
 
-      const queries = [
-        ...(q.length >= 2
-          ? [`${input.q} for men`, `${input.q} for women`]
-          : []),
-      ].slice(0, 4);
+    const queries = [
+      ...(q.length >= 2 ? [`${input.q} for men`, `${input.q} for women`] : []),
+    ].slice(0, 4);
 
-      return { brands: matchedBrands, categories: matchedCategories, products: matchedProducts, queries };
-    }),
+    return {
+      brands: matchedBrands,
+      categories: matchedCategories,
+      products: matchedProducts,
+      queries,
+    };
+  }),
 });

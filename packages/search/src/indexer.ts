@@ -1,10 +1,5 @@
 import type { SearchClient } from "./client";
-import {
-  productsSchema,
-  PRODUCTS_COLLECTION,
-  PRODUCTS_ALIAS,
-  type SearchProduct,
-} from "./schema";
+import { PRODUCTS_ALIAS, PRODUCTS_COLLECTION, productsSchema, type SearchProduct } from "./schema";
 import { synonyms } from "./synonyms";
 
 export async function ensureCollection(client: SearchClient): Promise<void> {
@@ -28,7 +23,7 @@ export async function ensureCollection(client: SearchClient): Promise<void> {
 
 export async function indexProducts(
   client: SearchClient,
-  products: SearchProduct[]
+  products: SearchProduct[],
 ): Promise<{ success: number; failed: number }> {
   if (products.length === 0) return { success: 0, failed: 0 };
 
@@ -50,19 +45,13 @@ export async function indexProducts(
   return { success, failed };
 }
 
-export async function deleteProduct(
-  client: SearchClient,
-  id: string
-): Promise<void> {
-  await client
-    .collections(PRODUCTS_COLLECTION)
-    .documents(id)
-    .delete();
+export async function deleteProduct(client: SearchClient, id: string): Promise<void> {
+  await client.collections(PRODUCTS_COLLECTION).documents(id).delete();
 }
 
 export async function reindexAll(
   client: SearchClient,
-  products: SearchProduct[]
+  products: SearchProduct[],
 ): Promise<{ success: number; failed: number }> {
   const timestamped = `${PRODUCTS_COLLECTION}_${Date.now()}`;
   const schema = { ...productsSchema, name: timestamped };
@@ -103,10 +92,7 @@ export async function reindexAll(
   return { success, failed };
 }
 
-export async function aliasSwap(
-  client: SearchClient,
-  newCollectionName: string
-): Promise<void> {
+export async function aliasSwap(client: SearchClient, newCollectionName: string): Promise<void> {
   let oldCollectionName: string | null = null;
 
   try {
@@ -116,9 +102,7 @@ export async function aliasSwap(
     // alias doesn't exist yet
   }
 
-  await client
-    .aliases()
-    .upsert(PRODUCTS_ALIAS, { collection_name: newCollectionName });
+  await client.aliases().upsert(PRODUCTS_ALIAS, { collection_name: newCollectionName });
 
   if (oldCollectionName && oldCollectionName !== newCollectionName) {
     try {

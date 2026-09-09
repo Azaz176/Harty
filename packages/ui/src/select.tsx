@@ -1,8 +1,8 @@
 "use client";
 
-import { forwardRef, type ComponentPropsWithoutRef } from "react";
 import * as SelectPrimitive from "@radix-ui/react-select";
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
+import { type ComponentPropsWithoutRef, forwardRef } from "react";
 import { cn } from "./lib/cn";
 
 export const Root = SelectPrimitive.Root;
@@ -22,7 +22,7 @@ export const Trigger = forwardRef<
       "transition-[border-color,box-shadow] duration-[var(--dur-micro)] ease-[var(--ease-out-expo)]",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-volt focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
       "disabled:cursor-not-allowed disabled:opacity-40",
-      className
+      className,
     )}
     {...props}
   >
@@ -75,7 +75,7 @@ export const Content = forwardRef<
         "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-[0.96]",
         "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-[0.96]",
         position === "popper" && "max-h-[--radix-select-content-available-height]",
-        className
+        className,
       )}
       position={position}
       {...props}
@@ -85,7 +85,7 @@ export const Content = forwardRef<
         className={cn(
           "p-1",
           position === "popper" &&
-            "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]"
+            "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]",
         )}
       >
         {children}
@@ -104,7 +104,7 @@ export const Label = forwardRef<
     ref={ref}
     className={cn(
       "px-3 py-1.5 font-sans text-[length:var(--text-micro)] font-medium text-ink-muted",
-      className
+      className,
     )}
     {...props}
   />
@@ -123,7 +123,7 @@ export const Item = forwardRef<
       "transition-colors duration-[var(--dur-micro)] ease-[var(--ease-out-expo)]",
       "hover:bg-paper-sunk focus:bg-paper-sunk",
       "data-[disabled]:pointer-events-none data-[disabled]:opacity-40",
-      className
+      className,
     )}
     {...props}
   >

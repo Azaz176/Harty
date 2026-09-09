@@ -1,62 +1,53 @@
-export { cn } from "./lib/cn";
-
-// Core primitives
-export { Text } from "./text";
+export {
+  Content as AccordionContent,
+  Item as AccordionItem,
+  Root as AccordionRoot,
+  Trigger as AccordionTrigger,
+} from "./accordion";
+// Aceternity-inspired effects
+export * from "./aceternity";
 export { Button, type ButtonProps } from "./button";
-export { Input, type InputProps } from "./input";
 export { Chip, type ChipProps } from "./chip";
-export { Skeleton } from "./skeleton";
-
-// Compound components — exported as namespace objects
-export { Sheet } from "./sheet";
-export { Drawer } from "./drawer";
+export { CursorProvider } from "./cursor";
 export { Dialog } from "./dialog";
-export { Toaster, toast } from "./toast";
-
+export { Drawer } from "./drawer";
+// Commerce
+export { ImageFrame } from "./image-frame";
+export { Input, type InputProps } from "./input";
+export { cn } from "./lib/cn";
+// Motion & brand
+export { Marquee } from "./marquee";
+export { PriceTicker } from "./price-ticker";
+export { Rating } from "./rating";
 // Re-export compound components with prefixed names for direct import
 export {
-  Root as SelectRoot,
-  Trigger as SelectTrigger,
   Content as SelectContent,
+  Group as SelectGroup,
   Item as SelectItem,
   Label as SelectLabel,
-  Group as SelectGroup,
-  Value as SelectValue,
+  Root as SelectRoot,
   Separator as SelectSeparator,
+  Trigger as SelectTrigger,
+  Value as SelectValue,
 } from "./select";
-
+// Compound components — exported as namespace objects
+export { Sheet } from "./sheet";
+export { SizePicker } from "./size-picker";
+export { Skeleton } from "./skeleton";
+export { SwatchPicker } from "./swatch-picker";
 export {
-  Root as TabsRoot,
-  List as TabsList,
-  Trigger as TabsTrigger,
   Content as TabsContent,
+  List as TabsList,
+  Root as TabsRoot,
+  Trigger as TabsTrigger,
 } from "./tabs";
-
+// Core primitives
+export { Text } from "./text";
+export { Toaster, toast } from "./toast";
 export {
-  Root as AccordionRoot,
-  Item as AccordionItem,
-  Trigger as AccordionTrigger,
-  Content as AccordionContent,
-} from "./accordion";
-
-export {
+  Arrow as TooltipArrow,
+  Content as TooltipContent,
   Provider as TooltipProvider,
   Root as TooltipRoot,
   Trigger as TooltipTrigger,
-  Content as TooltipContent,
-  Arrow as TooltipArrow,
 } from "./tooltip";
-
-// Commerce
-export { ImageFrame } from "./image-frame";
-export { PriceTicker } from "./price-ticker";
-export { Rating } from "./rating";
-export { SwatchPicker } from "./swatch-picker";
-export { SizePicker } from "./size-picker";
-
-// Motion & brand
-export { Marquee } from "./marquee";
-export { CursorProvider } from "./cursor";
-
-// Aceternity-inspired effects
-export * from "./aceternity";

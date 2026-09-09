@@ -1,8 +1,8 @@
 "use client";
 
-import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from "react";
-import { Drawer as VaulDrawer } from "vaul";
 import { X } from "lucide-react";
+import { type ComponentPropsWithoutRef, type ElementRef, forwardRef } from "react";
+import { Drawer as VaulDrawer } from "vaul";
 import { cn } from "./lib/cn";
 
 function Root({
@@ -59,27 +59,26 @@ const Content = forwardRef<
 ));
 Content.displayName = "Drawer.Content";
 
-const Close = forwardRef<
-  HTMLButtonElement,
-  React.ButtonHTMLAttributes<HTMLButtonElement>
->(({ className, ...props }, ref) => (
-  <VaulDrawer.Close asChild>
-    <button
-      ref={ref}
-      className={cn(
-        "absolute top-4 right-4 inline-flex size-8 items-center justify-center",
-        "rounded-[var(--radius-sm)] text-ink-muted",
-        "transition-colors duration-[var(--dur-micro)] ease-[var(--ease-out-expo)]",
-        "hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-volt",
-        className,
-      )}
-      {...props}
-    >
-      <X className="size-4" />
-      <span className="sr-only">Close</span>
-    </button>
-  </VaulDrawer.Close>
-));
+const Close = forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>(
+  ({ className, ...props }, ref) => (
+    <VaulDrawer.Close asChild>
+      <button
+        ref={ref}
+        className={cn(
+          "absolute top-4 right-4 inline-flex size-8 items-center justify-center",
+          "rounded-[var(--radius-sm)] text-ink-muted",
+          "transition-colors duration-[var(--dur-micro)] ease-[var(--ease-out-expo)]",
+          "hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-volt",
+          className,
+        )}
+        {...props}
+      >
+        <X className="size-4" />
+        <span className="sr-only">Close</span>
+      </button>
+    </VaulDrawer.Close>
+  ),
+);
 Close.displayName = "Drawer.Close";
 
 const Title = VaulDrawer.Title;

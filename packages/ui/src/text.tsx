@@ -1,12 +1,13 @@
-import { forwardRef, type ElementType, type ComponentPropsWithoutRef } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
+import { type ComponentPropsWithoutRef, type ElementType, forwardRef } from "react";
 import { cn } from "./lib/cn";
 
 const textVariants = cva("", {
   variants: {
     variant: {
       hero: "font-display text-[length:var(--text-hero)] leading-[0.9] tracking-[var(--tracking-hero)]",
-      display: "font-display text-[length:var(--text-display)] leading-[1.05] tracking-[var(--tracking-hero)]",
+      display:
+        "font-display text-[length:var(--text-display)] leading-[1.05] tracking-[var(--tracking-hero)]",
       title: "font-sans text-[length:var(--text-title)] leading-[1.15]",
       lead: "font-sans text-[length:var(--text-lead)] leading-[1.5]",
       body: "font-sans text-[length:var(--text-body)] leading-[1.6]",
@@ -64,7 +65,7 @@ type TextProps<T extends ElementType = "p"> = {
 
 function TextInner<T extends ElementType = "p">(
   { as, variant, weight, tracking, color, balance, className, ...props }: TextProps<T>,
-  ref: React.ForwardedRef<Element>
+  ref: React.ForwardedRef<Element>,
 ) {
   const Tag = as ?? DEFAULT_TAG_MAP[variant ?? "body"];
   return (
@@ -77,5 +78,5 @@ function TextInner<T extends ElementType = "p">(
 }
 
 export const Text = forwardRef(TextInner) as <T extends ElementType = "p">(
-  props: TextProps<T> & { ref?: React.ForwardedRef<Element> }
+  props: TextProps<T> & { ref?: React.ForwardedRef<Element> },
 ) => React.ReactElement | null;

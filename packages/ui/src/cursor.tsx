@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "./lib/cn";
 
 type CursorMode = "default" | "view" | "drag" | "interact";

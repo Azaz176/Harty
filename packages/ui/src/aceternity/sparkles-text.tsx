@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState, useId, type ReactNode } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
+import { type ReactNode, useEffect, useId, useState } from "react";
 import { cn } from "../lib/cn";
 
 type Sparkle = {
@@ -58,14 +58,10 @@ export function SparklesText({
   const prefixId = useId();
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) return;
 
-    const initial = Array.from({ length: sparklesCount }, () =>
-      generateSparkle(colors),
-    );
+    const initial = Array.from({ length: sparklesCount }, () => generateSparkle(colors));
     setSparkles(initial);
 
     const interval = setInterval(() => {

@@ -1,11 +1,10 @@
 "use client";
 
-import { forwardRef, useState, type ComponentPropsWithoutRef } from "react";
 import Image from "next/image";
+import { type ComponentPropsWithoutRef, forwardRef, useState } from "react";
 import { cn } from "./lib/cn";
 
-interface ImageFrameProps
-  extends Omit<ComponentPropsWithoutRef<typeof Image>, "onLoad"> {
+interface ImageFrameProps extends Omit<ComponentPropsWithoutRef<typeof Image>, "onLoad"> {
   ratio?: string;
 }
 

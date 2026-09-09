@@ -1,10 +1,6 @@
 import { cn } from "./lib/cn";
 
-export function Skeleton({
-  className,
-  style,
-  ...props
-}: React.ComponentPropsWithoutRef<"div">) {
+export function Skeleton({ className, style, ...props }: React.ComponentPropsWithoutRef<"div">) {
   return (
     <div
       className={cn(
@@ -12,7 +8,7 @@ export function Skeleton({
         "before:absolute before:inset-0 before:-translate-x-full",
         "before:animate-[shimmer_1.5s_ease-in-out_infinite]",
         "before:bg-gradient-to-r before:from-transparent before:via-paper-raised/60 before:to-transparent",
-        className
+        className,
       )}
       style={style}
       {...props}

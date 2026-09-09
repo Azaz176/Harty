@@ -1,7 +1,7 @@
 "use client";
 
-import { forwardRef, type ComponentPropsWithoutRef } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
+import { type ComponentPropsWithoutRef, forwardRef } from "react";
 import { cn } from "./lib/cn";
 
 const inputVariants = cva(
@@ -33,7 +33,7 @@ const inputVariants = cva(
       inputSize: "md",
       error: false,
     },
-  }
+  },
 );
 
 export type InputProps = Omit<ComponentPropsWithoutRef<"input">, "size"> &
@@ -51,6 +51,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {...props}
       />
     );
-  }
+  },
 );
 Input.displayName = "Input";

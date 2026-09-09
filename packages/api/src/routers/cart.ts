@@ -1,8 +1,8 @@
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { router, publicProcedure } from "../trpc";
-import { products, getBrand, getCategory } from "../data/mock-products";
-import type { MockVariant, MockProduct } from "../data/mock-products";
+import { z } from "zod";
+import type { MockProduct, MockVariant } from "../data/mock-products";
+import { getBrand, products } from "../data/mock-products";
+import { publicProcedure, router } from "../trpc";
 
 type CartItem = {
   id: string;
@@ -54,7 +54,7 @@ function findVariant(variantId: string): { product: MockProduct; variant: MockVa
   return null;
 }
 
-function findProductForVariant(variantId: string): MockProduct | null {
+function _findProductForVariant(variantId: string): MockProduct | null {
   return products.find((p) => p.variants.some((v) => v.id === variantId)) ?? null;
 }
 
@@ -121,16 +121,14 @@ function computeSummary(cart: Cart) {
 let itemIdCounter = 1;
 
 export const cartRouter = router({
-  get: publicProcedure
-    .input(z.object({ cartId: z.string().min(1) }))
-    .query(({ input }) => {
-      const cart = getOrCreateCart(input.cartId);
-      return {
-        ...cart,
-        items: enrichItems(cart.items),
-        summary: computeSummary(cart),
-      };
-    }),
+  get: publicProcedure.input(z.object({ cartId: z.string().min(1) })).query(({ input }) => {
+    const cart = getOrCreateCart(input.cartId);
+    return {
+      ...cart,
+      items: enrichItems(cart.items),
+      summary: computeSummary(cart),
+    };
+  }),
 
   addItem: publicProcedure
     .input(
@@ -254,10 +252,8 @@ export const cartRouter = router({
       };
     }),
 
-  summary: publicProcedure
-    .input(z.object({ cartId: z.string().min(1) }))
-    .query(({ input }) => {
-      const cart = getOrCreateCart(input.cartId);
-      return computeSummary(cart);
-    }),
+  summary: publicProcedure.input(z.object({ cartId: z.string().min(1) })).query(({ input }) => {
+    const cart = getOrCreateCart(input.cartId);
+    return computeSummary(cart);
+  }),
 });

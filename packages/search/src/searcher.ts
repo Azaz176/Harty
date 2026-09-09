@@ -11,9 +11,7 @@ const SORT_MAP: Record<string, string> = {
   rating: "rating:desc",
 };
 
-function buildFilterString(
-  filters: Record<string, string[]>
-): string {
+function buildFilterString(filters: Record<string, string[]>): string {
   const parts: string[] = [];
 
   for (const [facet, values] of Object.entries(filters)) {
@@ -80,7 +78,7 @@ export async function searchProducts(
     page?: number;
     perPage?: number;
     facetBy?: string[];
-  }
+  },
 ): Promise<SearchResult> {
   const {
     query,
@@ -152,7 +150,14 @@ export async function searchProducts(
 }
 
 export interface SuggestionResult {
-  products: Array<{ id: string; title: string; slug: string; imageUrl: string; brand: string; price: number }>;
+  products: Array<{
+    id: string;
+    title: string;
+    slug: string;
+    imageUrl: string;
+    brand: string;
+    price: number;
+  }>;
   brands: string[];
   categories: string[];
   queries: string[];
@@ -163,7 +168,7 @@ export async function suggestProducts(
   params: {
     query: string;
     limit?: number;
-  }
+  },
 ): Promise<SuggestionResult> {
   const { query, limit = 8 } = params;
 
@@ -171,21 +176,18 @@ export async function suggestProducts(
     return { products: [], brands: [], categories: [], queries: [] };
   }
 
-  const result = await client
-    .collections(PRODUCTS_COLLECTION)
-    .documents()
-    .search({
-      q: query,
-      query_by: "title,brand,category",
-      query_by_weights: "3,2,1",
-      per_page: limit,
-      facet_by: "brand,category",
-      max_facet_values: 5,
-      typo_tokens_threshold: 1,
-      num_typos: 1,
-      prefix: true,
-      highlight_full_fields: "title",
-    });
+  const result = await client.collections(PRODUCTS_COLLECTION).documents().search({
+    q: query,
+    query_by: "title,brand,category",
+    query_by_weights: "3,2,1",
+    per_page: limit,
+    facet_by: "brand,category",
+    max_facet_values: 5,
+    typo_tokens_threshold: 1,
+    num_typos: 1,
+    prefix: true,
+    highlight_full_fields: "title",
+  });
 
   const products = (result.hits ?? []).map((hit) => {
     const doc = hit.document as SearchProduct;
@@ -199,9 +201,9 @@ export async function suggestProducts(
     };
   });
 
-  const brands = (
-    result.facet_counts?.find((fc) => fc.field_name === "brand")?.counts ?? []
-  ).map((c) => String(c.value));
+  const brands = (result.facet_counts?.find((fc) => fc.field_name === "brand")?.counts ?? []).map(
+    (c) => String(c.value),
+  );
 
   const categories = (
     result.facet_counts?.find((fc) => fc.field_name === "category")?.counts ?? []

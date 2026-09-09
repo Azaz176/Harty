@@ -1,17 +1,11 @@
 "use client";
 
-import { forwardRef, useState, useCallback } from "react";
+import { forwardRef, useCallback, useState } from "react";
 import { cn } from "./lib/cn";
 
 const SIZES = { sm: 14, md: 18, lg: 24 } as const;
 
-function StarIcon({
-  size,
-  fill,
-}: {
-  size: number;
-  fill: "full" | "half" | "empty";
-}) {
+function StarIcon({ size, fill }: { size: number; fill: "full" | "half" | "empty" }) {
   const id = `star-clip-${Math.random().toString(36).slice(2, 8)}`;
 
   return (
@@ -59,10 +53,7 @@ interface RatingProps {
 }
 
 export const Rating = forwardRef<HTMLDivElement, RatingProps>(
-  (
-    { value, count, size = "md", interactive = false, onChange, className },
-    ref,
-  ) => {
+  ({ value, count, size = "md", interactive = false, onChange, className }, ref) => {
     const [hoverValue, setHoverValue] = useState<number | null>(null);
     const displayValue = hoverValue ?? value;
     const px = SIZES[size];
@@ -77,11 +68,7 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(
     const stars = Array.from({ length: 5 }, (_, i) => {
       const starNum = i + 1;
       const fill: "full" | "half" | "empty" =
-        displayValue >= starNum
-          ? "full"
-          : displayValue >= starNum - 0.5
-            ? "half"
-            : "empty";
+        displayValue >= starNum ? "full" : displayValue >= starNum - 0.5 ? "half" : "empty";
 
       if (interactive) {
         return (
@@ -107,11 +94,7 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(
         ref={ref}
         className={cn("inline-flex items-center gap-0.5", className)}
         role={interactive ? "radiogroup" : "img"}
-        aria-label={
-          interactive
-            ? "Rating selector"
-            : `${value} out of 5 stars`
-        }
+        aria-label={interactive ? "Rating selector" : `${value} out of 5 stars`}
       >
         {stars}
         {count !== undefined && (

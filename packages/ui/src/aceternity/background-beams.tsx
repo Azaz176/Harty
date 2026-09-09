@@ -18,12 +18,7 @@ const BEAM_PATHS = [
 
 export function BackgroundBeams({ className }: BackgroundBeamsProps) {
   return (
-    <div
-      className={cn(
-        "pointer-events-none absolute inset-0 overflow-hidden",
-        className,
-      )}
-    >
+    <div className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)}>
       <svg
         className="absolute inset-0 h-full w-full"
         viewBox="0 0 800 600"

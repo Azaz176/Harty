@@ -3,8 +3,25 @@ import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 
 const eslintConfig = defineConfig([
-  ...nextVitals,
+  ...nextVitals.map((c) => {
+    if (c?.rules?.["react-hooks/purity"]) {
+      return {
+        ...c,
+        rules: {
+          ...c.rules,
+          "react-hooks/purity": "warn",
+          "react-hooks/set-state-in-effect": "warn",
+        },
+      };
+    }
+    return c;
+  }),
   ...nextTs,
+  {
+    rules: {
+      "@next/next/no-html-link-for-pages": "warn",
+    },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:

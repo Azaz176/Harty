@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useState, useCallback } from "react";
+import { forwardRef, useCallback, useState } from "react";
 import { cn } from "./lib/cn";
 
 interface SizeOption {
@@ -45,9 +45,7 @@ export const SizePicker = forwardRef<HTMLDivElement, SizePickerProps>(
           if (nextSize?.available) onSelect?.(nextSize.value);
           const btn = e.currentTarget
             .closest('[role="radiogroup"]')
-            ?.querySelectorAll('[role="radio"]')[nextIdx] as
-            | HTMLElement
-            | undefined;
+            ?.querySelectorAll('[role="radio"]')[nextIdx] as HTMLElement | undefined;
           btn?.focus();
         }
       },
@@ -56,11 +54,7 @@ export const SizePicker = forwardRef<HTMLDivElement, SizePickerProps>(
 
     return (
       <div ref={ref} className={cn("space-y-3", className)}>
-        <div
-          role="radiogroup"
-          aria-label="Size"
-          className="flex flex-wrap gap-2"
-        >
+        <div role="radiogroup" aria-label="Size" className="flex flex-wrap gap-2">
           {sizes.map((size, idx) => (
             <button
               key={size.value}
@@ -68,9 +62,7 @@ export const SizePicker = forwardRef<HTMLDivElement, SizePickerProps>(
               role="radio"
               aria-checked={selected === size.value}
               aria-label={`${size.label}${size.available ? "" : " — out of stock"}`}
-              tabIndex={
-                selected === size.value || (!selected && idx === 0) ? 0 : -1
-              }
+              tabIndex={selected === size.value || (!selected && idx === 0) ? 0 : -1}
               disabled={!size.available && !onNotifyMe}
               onClick={() => {
                 if (size.available) {

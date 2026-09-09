@@ -1,1 +1,1 @@
-export { track, type AnalyticsEvent } from "./events";
+export { type AnalyticsEvent, track } from "./events";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 import { cn } from "../lib/cn";
 
 type InfiniteMovingCardsProps = {
@@ -39,7 +39,10 @@ export function InfiniteMovingCards({
 
   return (
     <div
-      className={cn("overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]", className)}
+      className={cn(
+        "overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]",
+        className,
+      )}
     >
       <ul
         ref={scrollerRef}
@@ -48,10 +51,12 @@ export function InfiniteMovingCards({
           started && "animate-[scroll_var(--scroll-duration)_linear_infinite]",
           pauseOnHover && "hover:[animation-play-state:paused]",
         )}
-        style={{
-          "--scroll-duration": SPEED_MAP[speed],
-          animationDirection: direction === "right" ? "reverse" : "normal",
-        } as React.CSSProperties}
+        style={
+          {
+            "--scroll-duration": SPEED_MAP[speed],
+            animationDirection: direction === "right" ? "reverse" : "normal",
+          } as React.CSSProperties
+        }
       >
         {items.map((item, idx) => (
           <li key={`${item.name}-${idx}`} className="flex-shrink-0">
@@ -67,15 +72,9 @@ export function InfiniteMovingCards({
                   />
                 )}
                 <div>
-                  <p className="font-display font-semibold text-ink">
-                    {item.name}
-                  </p>
-                  {item.title && (
-                    <p className="text-sm text-ink-muted">{item.title}</p>
-                  )}
-                  {item.quote && (
-                    <p className="mt-1 text-sm text-ink-faint">{item.quote}</p>
-                  )}
+                  <p className="font-display font-semibold text-ink">{item.name}</p>
+                  {item.title && <p className="text-sm text-ink-muted">{item.title}</p>}
+                  {item.quote && <p className="mt-1 text-sm text-ink-faint">{item.quote}</p>}
                 </div>
               </div>
             )}

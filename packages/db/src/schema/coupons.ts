@@ -1,12 +1,12 @@
 import {
+  boolean,
+  index,
+  integer,
+  jsonb,
   pgTable,
+  timestamp,
   uuid,
   varchar,
-  integer,
-  boolean,
-  jsonb,
-  timestamp,
-  index,
 } from "drizzle-orm/pg-core";
 import { couponKindEnum } from "./enums";
 
@@ -31,5 +31,5 @@ export const coupons = pgTable(
     endsAt: timestamp("ends_at", { withTimezone: true }).notNull(),
     stackable: boolean("stackable").default(false).notNull(),
   },
-  (t) => [index("coupons_code_idx").on(t.code)]
+  (t) => [index("coupons_code_idx").on(t.code)],
 );

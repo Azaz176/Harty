@@ -1,8 +1,8 @@
 "use client";
 
-import { forwardRef, type ComponentPropsWithoutRef } from "react";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { ChevronDown } from "lucide-react";
+import { type ComponentPropsWithoutRef, forwardRef } from "react";
 import { cn } from "./lib/cn";
 
 export const Root = forwardRef<
@@ -21,11 +21,7 @@ export const Item = forwardRef<
   HTMLDivElement,
   ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
 >(({ className, ...props }, ref) => (
-  <AccordionPrimitive.Item
-    ref={ref}
-    className={cn("", className)}
-    {...props}
-  />
+  <AccordionPrimitive.Item ref={ref} className={cn("", className)} {...props} />
 ));
 Item.displayName = "Accordion.Item";
 
@@ -42,7 +38,7 @@ export const Trigger = forwardRef<
         "hover:text-ink-muted",
         "[&[data-state=open]>svg]:rotate-180",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-volt focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
-        className
+        className,
       )}
       {...props}
     >
@@ -63,13 +59,11 @@ export const Content = forwardRef<
       "overflow-hidden",
       "data-[state=open]:animate-in data-[state=open]:fade-in-0",
       "data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
-      className
+      className,
     )}
     {...props}
   >
-    <div className="pb-4 font-sans text-[length:var(--text-body)] text-ink-muted">
-      {children}
-    </div>
+    <div className="pb-4 font-sans text-[length:var(--text-body)] text-ink-muted">{children}</div>
   </AccordionPrimitive.Content>
 ));
 Content.displayName = "Accordion.Content";

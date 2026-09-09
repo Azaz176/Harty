@@ -1,7 +1,7 @@
 "use client";
 
-import { type ReactNode } from "react";
 import { motion } from "motion/react";
+import type { ReactNode } from "react";
 import { cn } from "../lib/cn";
 
 type LampContainerProps = {
@@ -23,11 +23,13 @@ export function LampContainer({ children, className }: LampContainerProps) {
           whileInView={{ opacity: 1, width: "20rem" }}
           viewport={{ once: true }}
           transition={{ delay: 0.3, duration: 0.8, ease: "easeInOut" }}
-          style={{
-            backgroundImage:
-              "conic-gradient(var(--conic-position), var(--color-volt, #E53935) 0%, transparent 60%)",
-            "--conic-position": "from 70deg at center top",
-          } as React.CSSProperties}
+          style={
+            {
+              backgroundImage:
+                "conic-gradient(var(--conic-position), var(--color-volt, #E53935) 0%, transparent 60%)",
+              "--conic-position": "from 70deg at center top",
+            } as React.CSSProperties
+          }
           className="bg-gradient-conic absolute inset-auto right-1/2 h-40 w-[20rem] overflow-visible [--conic-position:from_70deg_at_center_top]"
         >
           <div className="absolute bottom-0 left-0 z-20 h-32 w-full bg-paper [mask-image:linear-gradient(to_top,white,transparent)]" />
@@ -39,11 +41,13 @@ export function LampContainer({ children, className }: LampContainerProps) {
           whileInView={{ opacity: 1, width: "20rem" }}
           viewport={{ once: true }}
           transition={{ delay: 0.3, duration: 0.8, ease: "easeInOut" }}
-          style={{
-            backgroundImage:
-              "conic-gradient(var(--conic-position), transparent 60%, var(--color-volt, #E53935) 100%)",
-            "--conic-position": "from 290deg at center top",
-          } as React.CSSProperties}
+          style={
+            {
+              backgroundImage:
+                "conic-gradient(var(--conic-position), transparent 60%, var(--color-volt, #E53935) 100%)",
+              "--conic-position": "from 290deg at center top",
+            } as React.CSSProperties
+          }
           className="bg-gradient-conic absolute inset-auto left-1/2 h-40 w-[20rem] overflow-visible [--conic-position:from_290deg_at_center_top]"
         >
           <div className="absolute bottom-0 right-0 z-20 h-full w-10 bg-paper" />
@@ -81,9 +85,5 @@ type LampEffectProps = {
 };
 
 export function LampEffect({ children, className }: LampEffectProps) {
-  return (
-    <LampContainer className={className}>
-      {children}
-    </LampContainer>
-  );
+  return <LampContainer className={className}>{children}</LampContainer>;
 }

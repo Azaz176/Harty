@@ -1,8 +1,8 @@
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { router, publicProcedure } from "../trpc";
-import { products, getBrand, getCategory } from "../data/mock-products";
+import { z } from "zod";
 import type { MockProduct } from "../data/mock-products";
+import { getBrand, getCategory, products } from "../data/mock-products";
+import { publicProcedure, router } from "../trpc";
 
 const wishlists = new Map<string, Set<string>>();
 
@@ -18,9 +18,7 @@ function getWishlist(userId: string): Set<string> {
 function enrichProduct(p: MockProduct) {
   const brand = getBrand(p.brandId);
   const category = getCategory(p.categoryId);
-  const minPriceVariant = p.variants.reduce((min, v) =>
-    v.price < min.price ? v : min,
-  );
+  const minPriceVariant = p.variants.reduce((min, v) => (v.price < min.price ? v : min));
   const hasDiscount = minPriceVariant.mrp > minPriceVariant.price;
 
   return {
@@ -48,15 +46,11 @@ function enrichProduct(p: MockProduct) {
 }
 
 export const wishlistRouter = router({
-  list: publicProcedure
-    .input(z.object({ userId: z.string().min(1) }))
-    .query(({ input }) => {
-      const set = getWishlist(input.userId);
-      const items = products
-        .filter((p) => set.has(p.id))
-        .map(enrichProduct);
-      return { items, total: items.length };
-    }),
+  list: publicProcedure.input(z.object({ userId: z.string().min(1) })).query(({ input }) => {
+    const set = getWishlist(input.userId);
+    const items = products.filter((p) => set.has(p.id)).map(enrichProduct);
+    return { items, total: items.length };
+  }),
 
   toggle: publicProcedure
     .input(z.object({ userId: z.string().min(1), productId: z.string().min(1) }))

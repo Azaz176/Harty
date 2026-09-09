@@ -1,12 +1,7 @@
 "use client";
 
-import {
-  type ComponentPropsWithoutRef,
-  type ElementType,
-  type ReactNode,
-  useRef,
-} from "react";
 import { motion } from "motion/react";
+import { type ComponentPropsWithoutRef, type ElementType, type ReactNode, useRef } from "react";
 import { cn } from "../lib/cn";
 
 type MovingBorderProps<T extends ElementType = "div"> = {
@@ -50,10 +45,7 @@ export function MovingBorder<T extends ElementType = "div">({
         }}
       />
       <div
-        className={cn(
-          "relative z-10 bg-paper",
-          className,
-        )}
+        className={cn("relative z-10 bg-paper", className)}
         style={{ borderRadius }}
         {...(props as Record<string, unknown>)}
       >

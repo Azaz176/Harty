@@ -1,23 +1,23 @@
-export {
-  productsSchema,
-  PRODUCTS_COLLECTION,
-  PRODUCTS_ALIAS,
-  type SearchProduct,
-} from "./schema";
 export { createSearchClient, type SearchClient } from "./client";
 export {
+  aliasSwap,
+  deleteProduct,
   ensureCollection,
   indexProducts,
-  deleteProduct,
   reindexAll,
-  aliasSwap,
 } from "./indexer";
 export {
-  searchProducts,
-  suggestProducts,
+  PRODUCTS_ALIAS,
+  PRODUCTS_COLLECTION,
+  productsSchema,
+  type SearchProduct,
+} from "./schema";
+export {
+  type FacetCount,
   type SearchHit,
   type SearchResult,
-  type FacetCount,
   type SuggestionResult,
+  searchProducts,
+  suggestProducts,
 } from "./searcher";
 export { synonyms } from "./synonyms";

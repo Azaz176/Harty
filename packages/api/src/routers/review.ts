@@ -1,6 +1,5 @@
 import { z } from "zod";
-import { router, publicProcedure } from "../trpc";
-import { products } from "../data/mock-products";
+import { publicProcedure, router } from "../trpc";
 
 type MockReview = {
   id: string;
@@ -16,9 +15,21 @@ type MockReview = {
 };
 
 const REVIEWER_NAMES = [
-  "Priya S.", "Arjun K.", "Sneha M.", "Rahul D.", "Ananya P.",
-  "Vikram R.", "Meera T.", "Rohit B.", "Ishita G.", "Karthik N.",
-  "Divya L.", "Aditya V.", "Neha C.", "Siddharth J.", "Pooja W.",
+  "Priya S.",
+  "Arjun K.",
+  "Sneha M.",
+  "Rahul D.",
+  "Ananya P.",
+  "Vikram R.",
+  "Meera T.",
+  "Rohit B.",
+  "Ishita G.",
+  "Karthik N.",
+  "Divya L.",
+  "Aditya V.",
+  "Neha C.",
+  "Siddharth J.",
+  "Pooja W.",
 ];
 
 const REVIEW_BODIES: Record<number, string[]> = {
@@ -39,10 +50,20 @@ const REVIEW_BODIES: Record<number, string[]> = {
 };
 
 const REVIEW_TITLES = [
-  "Love this piece!", "Great quality", "Perfect fit", "Exceeded expectations",
-  "Good value", "Nice fabric", "Runs slightly large", "Beautiful color",
-  "Comfortable and stylish", "Worth every rupee", "Decent purchase",
-  "Not bad for the price", "Pleasantly surprised", "A wardrobe staple",
+  "Love this piece!",
+  "Great quality",
+  "Perfect fit",
+  "Exceeded expectations",
+  "Good value",
+  "Nice fabric",
+  "Runs slightly large",
+  "Beautiful color",
+  "Comfortable and stylish",
+  "Worth every rupee",
+  "Decent purchase",
+  "Not bad for the price",
+  "Pleasantly surprised",
+  "A wardrobe staple",
 ];
 
 function seededRandom(seed: number): () => number {
@@ -84,9 +105,15 @@ function generateReviews(productId: string): MockReview[] {
       title: REVIEW_TITLES[Math.floor(rng() * REVIEW_TITLES.length)]!,
       body: bodies[Math.floor(rng() * bodies.length)]!,
       fitFeedback,
-      media: rng() > 0.7
-        ? [{ url: `https://images.unsplash.com/photo-${1500000000 + Math.floor(rng() * 100000000)}?w=200&h=200&fit=crop`, type: "image" }]
-        : [],
+      media:
+        rng() > 0.7
+          ? [
+              {
+                url: `https://images.unsplash.com/photo-${1500000000 + Math.floor(rng() * 100000000)}?w=200&h=200&fit=crop`,
+                type: "image",
+              },
+            ]
+          : [],
       helpfulCount: Math.floor(rng() * 24),
       createdAt: date.toISOString(),
     });
@@ -133,7 +160,6 @@ export const reviewRouter = router({
         case "rating_low":
           reviews = [...reviews].sort((a, b) => a.rating - b.rating);
           break;
-        case "newest":
         default:
           break;
       }
@@ -149,49 +175,47 @@ export const reviewRouter = router({
       };
     }),
 
-  summary: publicProcedure
-    .input(z.object({ productId: z.string().min(1) }))
-    .query(({ input }) => {
-      const reviews = getReviews(input.productId);
-      const total = reviews.length;
+  summary: publicProcedure.input(z.object({ productId: z.string().min(1) })).query(({ input }) => {
+    const reviews = getReviews(input.productId);
+    const total = reviews.length;
 
-      if (total === 0) {
-        return {
-          averageRating: 0,
-          totalCount: 0,
-          distribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
-          fitDistribution: { small: 0, true: 0, large: 0 },
-        };
-      }
-
-      const distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 } as Record<number, number>;
-      let ratingSum = 0;
-      const fitCounts = { small: 0, true: 0, large: 0 };
-      let fitTotal = 0;
-
-      for (const r of reviews) {
-        ratingSum += r.rating;
-        distribution[r.rating] = (distribution[r.rating] ?? 0) + 1;
-        if (r.fitFeedback) {
-          fitCounts[r.fitFeedback]++;
-          fitTotal++;
-        }
-      }
-
+    if (total === 0) {
       return {
-        averageRating: Math.round((ratingSum / total) * 10) / 10,
-        totalCount: total,
-        distribution,
-        fitDistribution:
-          fitTotal > 0
-            ? {
-                small: Math.round((fitCounts.small / fitTotal) * 100),
-                true: Math.round((fitCounts.true / fitTotal) * 100),
-                large: Math.round((fitCounts.large / fitTotal) * 100),
-              }
-            : { small: 0, true: 0, large: 0 },
+        averageRating: 0,
+        totalCount: 0,
+        distribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+        fitDistribution: { small: 0, true: 0, large: 0 },
       };
-    }),
+    }
+
+    const distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 } as Record<number, number>;
+    let ratingSum = 0;
+    const fitCounts = { small: 0, true: 0, large: 0 };
+    let fitTotal = 0;
+
+    for (const r of reviews) {
+      ratingSum += r.rating;
+      distribution[r.rating] = (distribution[r.rating] ?? 0) + 1;
+      if (r.fitFeedback) {
+        fitCounts[r.fitFeedback]++;
+        fitTotal++;
+      }
+    }
+
+    return {
+      averageRating: Math.round((ratingSum / total) * 10) / 10,
+      totalCount: total,
+      distribution,
+      fitDistribution:
+        fitTotal > 0
+          ? {
+              small: Math.round((fitCounts.small / fitTotal) * 100),
+              true: Math.round((fitCounts.true / fitTotal) * 100),
+              large: Math.round((fitCounts.large / fitTotal) * 100),
+            }
+          : { small: 0, true: 0, large: 0 },
+    };
+  }),
 
   markHelpful: publicProcedure
     .input(z.object({ reviewId: z.string().min(1) }))

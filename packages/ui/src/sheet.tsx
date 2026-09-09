@@ -1,8 +1,8 @@
 "use client";
 
-import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
+import { type ComponentPropsWithoutRef, type ElementRef, forwardRef } from "react";
 import { cn } from "./lib/cn";
 
 type Side = "left" | "right" | "top" | "bottom";
@@ -51,47 +51,45 @@ const Overlay = forwardRef<
 ));
 Overlay.displayName = "Sheet.Overlay";
 
-interface ContentProps
-  extends ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
+interface ContentProps extends ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
   side?: Side;
 }
 
-const Content = forwardRef<
-  ElementRef<typeof DialogPrimitive.Content>,
-  ContentProps
->(({ className, children, side = "right", ...props }, ref) => (
-  <DialogPrimitive.Portal>
-    <Overlay />
-    <DialogPrimitive.Content
-      ref={ref}
-      className={cn(
-        "fixed z-[var(--z-drawer)] bg-paper shadow-[var(--shadow-drawer)]",
-        "transition-transform duration-[var(--dur-base)] ease-[var(--ease-out-expo)]",
-        "data-[state=open]:duration-[var(--dur-base)]",
-        "data-[state=closed]:duration-[var(--dur-fast)]",
-        POSITION[side],
-        SIZE[side],
-        "data-[state=open]:" + TRANSLATE[side].open,
-        "data-[state=closed]:" + TRANSLATE[side].closed,
-        className,
-      )}
-      {...props}
-    >
-      {children}
-      <DialogPrimitive.Close
+const Content = forwardRef<ElementRef<typeof DialogPrimitive.Content>, ContentProps>(
+  ({ className, children, side = "right", ...props }, ref) => (
+    <DialogPrimitive.Portal>
+      <Overlay />
+      <DialogPrimitive.Content
+        ref={ref}
         className={cn(
-          "absolute top-4 right-4 inline-flex size-8 items-center justify-center",
-          "rounded-[var(--radius-sm)] text-ink-muted",
-          "transition-colors duration-[var(--dur-micro)] ease-[var(--ease-out-expo)]",
-          "hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-volt",
+          "fixed z-[var(--z-drawer)] bg-paper shadow-[var(--shadow-drawer)]",
+          "transition-transform duration-[var(--dur-base)] ease-[var(--ease-out-expo)]",
+          "data-[state=open]:duration-[var(--dur-base)]",
+          "data-[state=closed]:duration-[var(--dur-fast)]",
+          POSITION[side],
+          SIZE[side],
+          `data-[state=open]:${TRANSLATE[side].open}`,
+          `data-[state=closed]:${TRANSLATE[side].closed}`,
+          className,
         )}
+        {...props}
       >
-        <X className="size-4" />
-        <span className="sr-only">Close</span>
-      </DialogPrimitive.Close>
-    </DialogPrimitive.Content>
-  </DialogPrimitive.Portal>
-));
+        {children}
+        <DialogPrimitive.Close
+          className={cn(
+            "absolute top-4 right-4 inline-flex size-8 items-center justify-center",
+            "rounded-[var(--radius-sm)] text-ink-muted",
+            "transition-colors duration-[var(--dur-micro)] ease-[var(--ease-out-expo)]",
+            "hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-volt",
+          )}
+        >
+          <X className="size-4" />
+          <span className="sr-only">Close</span>
+        </DialogPrimitive.Close>
+      </DialogPrimitive.Content>
+    </DialogPrimitive.Portal>
+  ),
+);
 Content.displayName = "Sheet.Content";
 
 const Close = DialogPrimitive.Close;

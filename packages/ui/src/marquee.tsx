@@ -33,9 +33,7 @@ export const Marquee = forwardRef<HTMLDivElement, MarqueeProps>(
               "motion-reduce:animate-none",
               pauseOnHover && "group-hover:[animation-play-state:paused]",
             )}
-            style={
-              { "--marquee-dur": duration } as React.CSSProperties
-            }
+            style={{ "--marquee-dur": duration } as React.CSSProperties}
           >
             {children}
           </div>

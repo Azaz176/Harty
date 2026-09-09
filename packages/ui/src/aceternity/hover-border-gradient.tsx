@@ -1,7 +1,7 @@
 "use client";
 
-import { type ElementType, type ReactNode, useRef, useState } from "react";
 import { motion } from "motion/react";
+import { type ElementType, type ReactNode, useState } from "react";
 import { cn } from "../lib/cn";
 
 type HoverBorderGradientProps = {
@@ -43,12 +43,7 @@ export function HoverBorderGradient({
           repeat: Infinity,
         }}
       />
-      <div
-        className={cn(
-          "relative z-10 rounded-[6px] bg-paper transition-colors",
-          className,
-        )}
-      >
+      <div className={cn("relative z-10 rounded-[6px] bg-paper transition-colors", className)}>
         {children}
       </div>
     </Tag>

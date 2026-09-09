@@ -1,18 +1,10 @@
-import {
-  pgTable,
-  uuid,
-  varchar,
-  jsonb,
-  timestamp,
-} from "drizzle-orm/pg-core";
+import { jsonb, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 export const idempotencyKeys = pgTable("idempotency_keys", {
   key: varchar("key", { length: 255 }).primaryKey(),
   scope: varchar("scope", { length: 100 }).notNull(),
   response: jsonb("response"),
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .defaultNow()
-    .notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
 export const auditLog = pgTable("audit_log", {

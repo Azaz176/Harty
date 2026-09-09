@@ -1,13 +1,5 @@
-import {
-  pgTable,
-  uuid,
-  varchar,
-  text,
-  boolean,
-  timestamp,
-  index,
-} from "drizzle-orm/pg-core";
-import { userTierEnum, addressTypeEnum } from "./enums";
+import { boolean, index, pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { addressTypeEnum, userTierEnum } from "./enums";
 
 export const users = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -16,9 +8,7 @@ export const users = pgTable("users", {
   name: varchar("name", { length: 255 }),
   avatar: text("avatar"),
   tier: userTierEnum("tier").default("bronze").notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .defaultNow()
-    .notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
 export const addresses = pgTable(
@@ -40,5 +30,5 @@ export const addresses = pgTable(
     isDefault: boolean("is_default").default(false).notNull(),
     type: addressTypeEnum("type").default("home").notNull(),
   },
-  (t) => [index("addresses_user_id_idx").on(t.userId)]
+  (t) => [index("addresses_user_id_idx").on(t.userId)],
 );
