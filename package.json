@@ -1,0 +1,21 @@
+{
+  "name": "harty",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "format": "biome format --write .",
+    "check": "biome check --write ."
+  },
+  "packageManager": "pnpm@12.3.4",
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.12",
+    "turbo": "^2.10.12",
+    "typescript": "^7.0.2"
+  }
+}

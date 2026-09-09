@@ -1,0 +1,15 @@
+export const synonyms = [
+  { id: "tshirt", synonyms: ["tshirt", "t-shirt", "tee"] },
+  { id: "jeans", synonyms: ["jeans", "denim", "denims"] },
+  { id: "kurta", synonyms: ["kurta", "kurtha", "kurti"] },
+  { id: "sneakers", synonyms: ["sneakers", "trainers", "kicks"] },
+  { id: "sweater", synonyms: ["sweater", "jumper", "pullover"] },
+  { id: "trousers", synonyms: ["trousers", "pants", "chinos"] },
+  { id: "jacket", synonyms: ["jacket", "blazer", "coat"] },
+  { id: "dress", synonyms: ["dress", "gown", "frock"] },
+  { id: "hoodie", synonyms: ["hoodie", "hoody", "sweatshirt"] },
+  { id: "shorts", synonyms: ["shorts", "bermudas"] },
+  { id: "saree", synonyms: ["saree", "sari"] },
+  { id: "lehenga", synonyms: ["lehenga", "lehnga", "ghagra"] },
+  { id: "dupatta", synonyms: ["dupatta", "chunni", "stole"] },
+] as const;

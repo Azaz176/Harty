@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "paths": {
+      "@harty/ui": ["./packages/ui/src"],
+      "@harty/ui/*": ["./packages/ui/src/*"],
+      "@harty/motion": ["./packages/motion/src"],
+      "@harty/motion/*": ["./packages/motion/src/*"],
+      "@harty/db": ["./packages/db/src"],
+      "@harty/db/*": ["./packages/db/src/*"],
+      "@harty/api": ["./packages/api/src"],
+      "@harty/api/*": ["./packages/api/src/*"],
+      "@harty/search": ["./packages/search/src"],
+      "@harty/search/*": ["./packages/search/src/*"],
+      "@harty/payments": ["./packages/payments/src"],
+      "@harty/payments/*": ["./packages/payments/src/*"],
+      "@harty/config": ["./packages/config/src"],
+      "@harty/config/*": ["./packages/config/src/*"],
+      "@harty/analytics": ["./packages/analytics/src"],
+      "@harty/analytics/*": ["./packages/analytics/src/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}

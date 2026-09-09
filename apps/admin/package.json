@@ -1,0 +1,11 @@
+{
+  "name": "@harty/admin",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "echo 'admin app — not yet scaffolded'",
+    "build": "echo 'admin app — not yet scaffolded'",
+    "typecheck": "echo 'admin app — not yet scaffolded'"
+  }
+}

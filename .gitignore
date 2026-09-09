@@ -1,0 +1,44 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# build
+.next/
+dist/
+.turbo/
+out/
+
+# env
+.env
+.env.local
+.env.*.local
+
+# editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# os
+.DS_Store
+Thumbs.db
+
+# test
+coverage/
+
+# debug
+npm-debug.log*
+pnpm-debug.log*
+
+# vercel
+.vercel
+
+# storybook
+storybook-static/
+
+# playwright
+test-results/
+playwright-report/
+
+# claude code
+.claude/
